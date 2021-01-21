@@ -16,7 +16,7 @@
 					return decodeURIComponent(results[2].replace(/\+/g, ' '));
                 }
 
-                var appFallback = getParameterByName('vid');
+                var appFallback = getParameterByName('v');
                 if (appFallback == "") return;
 				var androidApp = `intent://${appFallback}#Intent;package=com.google.android.youtube;scheme=https;end`;
 				var iosApp = `vnd.youtube://${appFallback}`;
