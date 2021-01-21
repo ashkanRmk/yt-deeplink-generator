@@ -17,26 +17,22 @@
                 }
 
                 var appFallback = getParameterByName('vid');
-                console.log(appFallback);
                 if (appFallback == "") return;
 				var androidApp = `intent://${appFallback}#Intent;package=com.google.android.youtube;scheme=https;end`;
 				var iosApp = `vnd.youtube://${appFallback}`;
 
-                console.log(androidApp);
-                console.log(iosApp);
 				if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-					window.location = iosApp;
+					window.location.assign(iosApp);
 					window.setTimeout(function () {
-						window.location = appFallback;
+						window.location.assign(appFallback);
 					}, 25);
 				} else if (/Android/i.test(navigator.userAgent)) {
-					window.location = androidApp;
+					window.location.assign(androidApp);
 					window.setTimeout(function () {
-						window.location = appFallback;
+						window.location.assign(appFallback);
 					}, 25);
 				} else {
-                    console.log("hi");
-					window.location = appFallback;
+					window.location.assign(appFallback);
 				}
 
 				function killPopup() {
