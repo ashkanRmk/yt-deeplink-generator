@@ -14,10 +14,25 @@
 					if (!results) return null;
 					if (!results[2]) return '';
 					return decodeURIComponent(results[2].replace(/\+/g, ' '));
-                }
+				}
 
-                var appFallback = getParameterByName('u');
-                if (appFallback == "") return;
+				var youtubeLongLink = 'www.youtube.com/watch?v=';
+				var youtubeShortLink = 'https://youtu.be/';
+				var https = 'https://';
+				var www = 'www.';
+				var appFallback = getParameterByName('u');
+
+				if (!appFallback) return;
+				else if (appFallback.includes(youtubeShortLink)) {
+					appFallback = youtubeLongURL + appFallback.split(youtubeShortLink)[1];
+				} else if (appFallback.includes(https)) {
+					if (appFallback.includes(www))
+						appFallback = appFallback.replace((https, ''));
+					else appFallback = appFallback.replace(https, www);
+				} else if (!appFallback.includes(www)) {
+					appFallback = youtubeLong + appFallback;
+				}
+
 				var androidApp = `intent://${appFallback}#Intent;package=com.google.android.youtube;scheme=https;end`;
 				var iosApp = `vnd.youtube://${appFallback}`;
 
