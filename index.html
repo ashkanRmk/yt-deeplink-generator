@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			window.onload = function () {
+				function getParameterByName(name, url = window.location.href) {
+					name = name.replace(/[\[\]]/g, '\\$&');
+					var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+						results = regex.exec(url);
+					if (!results) return null;
+					if (!results[2]) return '';
+					return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                }
+
+                var appFallback = getParameterByName('vid');
+                console.log(appFallback);
+                if (appFallback == "") return;
+				var androidApp = `intent://${appFallback}#Intent;package=com.google.android.youtube;scheme=https;end`;
+				var iosApp = `vnd.youtube://${appFallback}`;
+
+                console.log(androidApp);
+                console.log(iosApp);
+				if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+					window.location = iosApp;
+					window.setTimeout(function () {
+						window.location = appFallback;
+					}, 25);
+				} else if (/Android/i.test(navigator.userAgent)) {
+					window.location = androidApp;
+					window.setTimeout(function () {
+						window.location = appFallback;
+					}, 25);
+				} else {
+                    console.log("hi");
+					window.location = appFallback;
+				}
+
+				function killPopup() {
+					window.removeEventListener('pagehide', killPopup);
+				}
+
+				window.addEventListener('pagehide', killPopup);
+			};
+		</script>
+	</body>
+</html>
