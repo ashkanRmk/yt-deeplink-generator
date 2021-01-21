@@ -17,13 +17,10 @@
                 }
 
                 var appFallback = getParameterByName('vid');
-                console.log(appFallback);
                 if (appFallback == "") return;
 				var androidApp = `intent://${appFallback}#Intent;package=com.google.android.youtube;scheme=https;end`;
 				var iosApp = `vnd.youtube://${appFallback}`;
 
-                console.log(androidApp);
-                console.log(iosApp);
 				if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
 					window.location.href = iosApp;
 					window.setTimeout(function () {
@@ -35,7 +32,6 @@
 						window.location.href = appFallback;
 					}, 25);
 				} else {
-                    console.log("hi");
 					window.location.href = appFallback;
 				}
 
