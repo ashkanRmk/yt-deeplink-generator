@@ -51,15 +51,15 @@
 				if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
 					window.location.href = iosApp;
 					window.setTimeout(function () {
-						window.location.href = fallbackURL;
+						window.location.href = https + fallbackURL;
 					}, 25);
 				} else if (/Android/i.test(navigator.userAgent)) {
 					window.location.href = androidApp;
 					window.setTimeout(function () {
-						window.location.href = fallbackURL;
+						window.location.href = https + fallbackURL;
 					}, 25);
 				} else {
-					window.location.href = fallbackURL;
+					window.location.href = https + fallbackURL;
 				}
 
 				function killPopup() {
