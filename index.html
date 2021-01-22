@@ -30,7 +30,7 @@
 							fallbackURL = channelFallback.replace((https, ''));
 						else fallbackURL = channelFallback.replace(https, www);
 					} else if (!channelFallback.includes(www)) {
-						fallbackURL = youtubeVideoLongLink + channelFallback;
+						fallbackURL = youtubeChannelLink + channelFallback;
 					}
 				} else if (fallbackURL) {
 					if (fallbackURL.includes(youtubeShortLink)) {
