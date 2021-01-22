@@ -16,38 +16,50 @@
 					return decodeURIComponent(results[2].replace(/\+/g, ' '));
 				}
 
-				var youtubeLongLink = 'www.youtube.com/watch?v=';
+				var youtubeVideoLongLink = 'www.youtube.com/watch?v=';
+				var youtubeChannelLink = 'www.youtube.com/channel/';
 				var youtubeShortLink = 'https://youtu.be/';
 				var https = 'https://';
 				var www = 'www.';
-				var appFallback = getParameterByName('u');
+				var fallbackURL = getParameterByName('u');
+				var channelFallback = getParameterByName('c');
 
-				if (!appFallback) return;
-				else if (appFallback.includes(youtubeShortLink)) {
-					appFallback = youtubeLongLink + appFallback.split(youtubeShortLink)[1];
-				} else if (appFallback.includes(https)) {
-					if (appFallback.includes(www))
-						appFallback = appFallback.replace((https, ''));
-					else appFallback = appFallback.replace(https, www);
-				} else if (!appFallback.includes(www)) {
-					appFallback = youtubeLongLink + appFallback;
-				}
+				if (channelFallback) {
+					if (channelFallback.includes(https)) {
+						if (channelFallback.includes(www))
+							fallbackURL = channelFallback.replace((https, ''));
+						else fallbackURL = channelFallback.replace(https, www);
+					} else if (!channelFallback.includes(www)) {
+						fallbackURL = youtubeVideoLongLink + channelFallback;
+					}
+				} else if (fallbackURL) {
+					if (fallbackURL.includes(youtubeShortLink)) {
+						fallbackURL =
+							youtubeVideoLongLink + fallbackURL.split(youtubeShortLink)[1];
+					} else if (fallbackURL.includes(https)) {
+						if (fallbackURL.includes(www))
+							fallbackURL = fallbackURL.replace((https, ''));
+						else fallbackURL = fallbackURL.replace(https, www);
+					} else if (!fallbackURL.includes(www)) {
+						fallbackURL = youtubeVideoLongLink + fallbackURL;
+					}
+				} else return;
 
-				var androidApp = `intent://${appFallback}#Intent;package=com.google.android.youtube;scheme=https;end`;
-				var iosApp = `vnd.youtube://${appFallback}`;
+				var androidApp = `intent://${fallbackURL}#Intent;package=com.google.android.youtube;scheme=https;end`;
+				var iosApp = `vnd.youtube://${fallbackURL}`;
 
 				if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
 					window.location.href = iosApp;
 					window.setTimeout(function () {
-						window.location.href = appFallback;
+						window.location.href = fallbackURL;
 					}, 25);
 				} else if (/Android/i.test(navigator.userAgent)) {
 					window.location.href = androidApp;
 					window.setTimeout(function () {
-						window.location.href = appFallback;
+						window.location.href = fallbackURL;
 					}, 25);
 				} else {
-					window.location.href = appFallback;
+					window.location.href = fallbackURL;
 				}
 
 				function killPopup() {
